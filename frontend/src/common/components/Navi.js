@@ -14,7 +14,7 @@ const Navi = () => (
             <NaviItem><Link to='/linear'style={{textDecorationLine:'none',color:'black'}}><strong>Linear</strong></Link></NaviItem>
             <NaviItem><Link to="/nonlinear"style={{textDecorationLine:'none',color:'black'}}><strong>NonLinear</strong></Link></NaviItem>
             <NaviItem><Link to="/brute-force"style={{textDecorationLine:'none',color:'black'}}><strong>Brute Force</strong></Link></NaviItem>
-            <NaviItem><Link to="/divide-conquer"style={{textDecorationLine:'none',color:'black'}}><strong>Divide & Conquer</strong></Link></NaviItem>
+            <NaviItem><Link to="/divide-conquer"style={{textDecorationLine:'none',color:'black'}}><strong>DivideConquer</strong></Link></NaviItem>
             <NaviItem><Link to="/greedy"style={{textDecorationLine:'none',color:'black'}}><strong>Greedy</strong></Link></NaviItem>
             <NaviItem><Link to="/dp"style={{textDecorationLine:'none',color:'black'}}><strong>Dynamic Programming</strong></Link></NaviItem>
             <NaviItem><Link to="/back-tracking "style={{textDecorationLine:'none',color:'black'}}><strong>Back Tracking</strong></Link></NaviItem>
