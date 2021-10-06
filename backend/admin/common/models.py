@@ -1,8 +1,12 @@
+from abc import abstractmethod, ABCMeta
 from dataclasses import dataclass
-
 import pandas as pd
 from icecream import ic
+import json
+import googlemaps
+'''
 
+'''
 
 @dataclass
 class DFrameGenerator(object):
@@ -12,6 +16,27 @@ class DFrameGenerator(object):
     id: str
     label: str
     fname: object
+    context: str
+    url: str
+    dframe: object
+
+    @property
+    def dframe(self) -> object: return self._dframe
+
+    @dframe.setter
+    def dframe(self, dframe): self._dframe = dframe
+
+    @property
+    def url(self) -> str: return self._url
+
+    @url.setter
+    def url(self, url): self._url = url
+
+    @property
+    def context(self) -> str: return self._context
+
+    @context.setter
+    def context(self, context): self._context = context
 
     @property
     def fname(self) -> object: return self._fname
@@ -52,7 +77,7 @@ class DFrameGenerator(object):
         ic(model.info())
         ic(model.describe())
 
-        '''
+'''
 ic| model.head(3):    longitude  latitude  housing_median_age  total_rooms  total_bedrooms  population  households  median_income  median_house_value ocean_proximity
            0    -122.23     37.88                41.0        880.0           129.0       322.0       126.0         8.3252            452600.0        NEAR BAY
            1    -122.22     37.86                21.0       7099.0          1106.0      2401.0      1138.0         8.3014            358500.0        NEAR BAY
@@ -89,4 +114,57 @@ Data columns (total 10 columns):
                       75%     -118.010000     37.710000           37.000000   3148.000000      647.000000   1725.000000    605.000000       4.743250       264725.000000
                       max     -114.310000     41.950000           52.000000  39320.000000     6445.000000  35682.000000   6082.000000      15.000100       500001.000000
 
-        '''
+'''
+
+
+class ReaderBase(metaclass=ABCMeta):
+    @abstractmethod
+    def new_file(self):
+        pass
+
+    @abstractmethod
+    def csv(self):
+        pass
+
+    @abstractmethod
+    def xls(self):
+        pass
+
+    @abstractmethod
+    def json(self):
+        pass
+
+
+class PrinterBase(metaclass=ABCMeta):
+    @abstractmethod
+    def dframe(self):
+        pass
+
+
+class Reader(ReaderBase):
+
+    def new_file(self, file) -> str:
+        return file.context + file.fname
+
+    def csv(self, file) -> object:
+        return pd.read_csv(f'{file}.csv', encoding='UTF-8', thousands=',')
+
+    def csv_header(self, file, header) -> object:
+        return pd.read_csv(f'{file}.csv', encoding='UTF-8', thousands=',', header=header)
+
+    def xls(self, file, header, usecols):
+        return pd.read_excel(f'{file}.xls', header=header, usecols=usecols)
+
+    def json(self, file) -> str:
+        return json.load(open(f'{file}.json', encoding='UTF-8'))
+
+    def gmaps(self) -> object:
+        return googlemaps.Client(key='')
+
+
+class Printer(PrinterBase):
+    def dframe(self, this):
+        ic(this.head(3))
+        ic(this.tail(3))
+        ic(this.info())
+        print(this.isnull().sum())

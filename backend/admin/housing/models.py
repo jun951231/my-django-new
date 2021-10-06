@@ -23,24 +23,28 @@ class HousingService(object):
         plt.savefig('admin/housing/data/housing.csv')
 
     def split_model(self) -> []:
-        train_set, test_set = train_test_split(self.new_model(), test_size=0.2, random_state=42)
-        return [self.train_set, self.test_set]
+        train_set, test_set = train_test_split(self.model, test_size=0.2, random_state=42)
+        print('#'*100)
+        self.dfg.model_info(train_set)
+        print('#'*100)
+        self.dfg.model_info(test_set)
+        return [train_set, test_set]
 
     def income_cat_hist(self):
-        h = self.new_model()
-        h['income_cat'] = pd.cut(h['median_income'],
+        m = self.model
+        m['income_cat'] = pd.cut(m['median_income'],
                                  bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
                                  labels=[1,2,3,4,5]
                                  )
-        h['income_cat'].hist()
+        m['income_cat'].hist()
         plt.savefig('admin/housing/image/housing-hist.png')
 
     def split_model_by_income_cat(self) -> []:
-        h = self.new_model()
+        m = self.model
         split = StratifiedShuffleSplit(n_splits=1, test=0.2, random_state=42)
-        for train_idx, test_idx in split.split(h, h['income_cat']):
-            temp_train_set = h.loc[train_idx]
-            temp_test_set = h.loc[test_idx]
+        for train_idx, test_idx in split.split(m, m['income_cat']):
+            temp_train_set = m.loc[train_idx]
+            temp_test_set = m.loc[test_idx]
         ic(temp_test_set['income_cat']).value_counts() / len(temp_test_set)
 
 class Housing(models.Model):
