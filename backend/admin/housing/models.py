@@ -1,43 +1,43 @@
-import matplotlib.pyplot as plt
-import numpy as np
 from django.db import models
-from icecream import ic
-from sklearn.model_selection import train_test_split, StratifiedShuffleSplit
-from admin.common.models import DFrameGenerator
 import pandas as pd
+import numpy as np
+from admin.common.models import ValueObject
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedShuffleSplit
+import matplotlib.pyplot as plt
+from icecream import ic
 
 
 class HousingService(object):
 
-
     def __init__(self):
-        self.dfg = DFrameGenerator()
-        self.dfg.fname = 'admin/housing/data/housing.csv'
-        self.df = self.dfg.create_model()
+        self.vo = ValueObject()
+        self.vo.fname = 'admin/housing/data/housing.csv'
+        self.model = self.vo.create_model()
 
     def housing_info(self):
-        self.dfg.model_info(self.df)
+        self.vo.model_info(self.model)
 
     def housing_hist(self):
-        self.model.dframe.hist(bins=50, figsize=(20, 15))
-        plt.savefig('admin/housing/data/housing.csv')
+        self.model.hist(bins=50, figsize=(20, 15))
+        plt.savefig('admin/housing/image/housing-hist.png')
 
     def split_model(self) -> []:
         train_set, test_set = train_test_split(self.model, test_size=0.2, random_state=42)
         print('#'*100)
-        self.dfg.model_info(train_set)
-        print('#'*100)
-        self.dfg.model_info(test_set)
+        self.vo.model_info(train_set)
+        print('#' * 100)
+        self.vo.model_info(test_set)
         return [train_set, test_set]
 
     def income_cat_hist(self):
         m = self.model
         m['income_cat'] = pd.cut(m['median_income'],
-                                 bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
+                                 bins=[0.,1.5,3.0,4.5,6.,np.inf], # np.inf is NaN(Not a Numer)
                                  labels=[1,2,3,4,5]
                                  )
         m['income_cat'].hist()
-        plt.savefig('admin/housing/image/housing-hist.png')
+        plt.savefig('admin/housing/image/income-cat.png')
 
     def split_model_by_income_cat(self) -> []:
         m = self.model
@@ -45,7 +45,12 @@ class HousingService(object):
         for train_idx, test_idx in split.split(m, m['income_cat']):
             temp_train_set = m.loc[train_idx]
             temp_test_set = m.loc[test_idx]
-        ic(temp_test_set['income_cat']).value_counts() / len(temp_test_set)
+        ic(temp_test_set['income_cat'].value_counts() / len(temp_test_set))
+
+
+
+
+
 
 class Housing(models.Model):
 
