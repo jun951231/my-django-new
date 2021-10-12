@@ -126,7 +126,8 @@ class Printer(PrinterBase):
         ic(this.head(3))
         ic(this.tail(3))
         print(this.info())
-        print(this.isnull().sum())
+        print('*' * 100)
+        print(f'Null Count !! is {this.isnull().sum()}')
 
         '''
         ic| model.head(3):    longitude  latitude  housing_median_age  total_rooms  total_bedrooms  population  households  median_income  median_house_value ocean_proximity
