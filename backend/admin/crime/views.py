@@ -9,12 +9,6 @@ import matplotlib.pyplot as plt
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
-def process(request):
-    Crime().process()
-    return JsonResponse({'result': 'Process Success'})
-
-@api_view(['GET'])
-@parser_classes([JSONParser])
 def create_police_position(request):
     CrimeCctvModel().create_police_position()
     return JsonResponse({'result': 'Create Police Position Success'})
@@ -42,3 +36,9 @@ def create_population_model(request):
 def merge_cctv_pop(request):
     CrimeCctvModel().merge_cctv_pop()
     return JsonResponse({'result': 'Merge CCTV Population Success'})
+
+@api_view(['GET'])
+@parser_classes([JSONParser])
+def process(request):
+    Crime().process()
+    return JsonResponse({'result': 'Process Success'})

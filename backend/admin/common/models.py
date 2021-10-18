@@ -123,8 +123,8 @@ class Reader(ReaderBase):
 
 class Printer(PrinterBase):
     def dframe(self, this):
-        ic(this.head(3))
-        ic(this.tail(3))
+        print(this.head(3))
+        print(this.tail(3))
         print(this.info())
         print('*' * 100)
         print(f'Null Count !! is {this.isnull().sum()}')
