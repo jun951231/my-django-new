@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import JSONParser
-from admin.tensor.models import Calculator, FashionClassification
+from admin.tensor.models import Calculator, FashionClassification, TensorFunction
 
 
 @api_view(['GET'])
@@ -15,3 +15,10 @@ def calculator(request):
 def fashion(request):
     FashionClassification().fashion()
     return JsonResponse({'fashion': 'Success'})
+
+@api_view(['GET'])
+@parser_classes([JSONParser])
+def hook(request):
+    print('>>>>>>>>>>')
+    TensorFunction().hook()
+    return JsonResponse({'Hook': 'Success'})
