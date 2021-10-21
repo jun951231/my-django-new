@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from admin.common.models import ValueObject
 
 
+
 class TensorFunction(object):
     def __init__(self):
         self.vo = ValueObject()
